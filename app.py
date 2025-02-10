@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template
 import sqlite3
 
+app = Flask(__name__)
+
 connection = sqlite3.connect('loginpass.db')
 cursor = connection.cursor()
 
@@ -25,7 +27,9 @@ def gfg():
        first_name = request.form.get("fname")
        # getting input with name = lname in HTML form 
        last_name = request.form.get("lname") 
-       cur.execute(f'INSERT INTO Loginpass (username, password) VALUES (?, ?)', (first_name, last_name))
+       cur.execute(f'INSERT INTO Loginpass (username, password) VALUES (?, ?);', (first_name, last_name))
+       con.commit()
+       con.close()
        print(first_name+" "+last_name)
        return "Your name is "+first_name + last_name
     return render_template('attempt.html')
